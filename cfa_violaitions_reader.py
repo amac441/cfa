@@ -25,14 +25,18 @@ for row in data:
     #date format 1/3/2012 0:00
     vDate=datetime.strptime(row[3],'%Y-%m-%d %H:%M:%S')
     if vCat in stats.keys():
-        stats[vCat]['count']+=1
-        if stats[vCat]['earliest']>vDate:
-            stats[vCat]['earliest']=vDate
-            stats[vCat]['earlyData']=row
-        if stats[vCat]['latest']<vDate:
-            stats[vCat]['latest']=vDate
-            stats[vCat]['lateData']=row
+        st=stats[vCat]
+        st['count']+=1
+        #check if violation is earlier
+        if st['earliest']>vDate:
+            st['earliest']=vDate
+            st['earlyData']=row
+        #check if violation is later
+        if st['latest']<vDate:
+            st['latest']=vDate
+            st['lateData']=row
     else:
+        #initialize violation category
         stats[vCat]={'count':0,'earliest':vDate,'latest':vDate,'earlyData':row,'lateData':row}
 
 dashes='============='
